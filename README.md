@@ -1,24 +1,59 @@
-# Lumen PHP Framework
+# deccl
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+https://deccl.us
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+News Commentors' & Journalism Critics' Playground
 
-## Official Documentation
+## Quick Start
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+### Requirements
 
-## Contributing
+* PHP 7.4^ + Composer
+* MySQL
+* Redis
+* Node.js + npm
+* Laravel Echo Server (`npm i -g laravel-echo-server`)
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Installation
 
-## Security Vulnerabilities
+```bash
+$ composer install
+$ npm install
+```
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+### Running Server
 
-## License
+```bash
+$ laravel-echo-server start
+$ php artisan queue:work
+$ php -S localhost:7700 -t public
+```
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Stacks & Specification
+
+* Lumen Framework 8
+    * Cookie based authorization
+    * `withFacades()`, `withEloquent()` enabled
+    * Basically it should have been developed as a Laravel app
+* Bootstrap 4
+    * jQuery, popper.js, bootbox, BlockUI, js-cookie included
+* Laravel Echo, home-made service worker
+    * Implementing real-time notifications
+
+## Keep it in mind...
+
+### 1. Let them talk to themselves.
+
+Let them be happy with their own writings. Get them narcissistic.
+
+### 2. Tell them you can be famous too.
+
+Reward them by the amount of the attention they drag. Produce some "celebrities."
+
+### 3. Make the entire commenting process easy and addictive.
+
+Give a good lie that making comments actually contributes to the world. (Which *apparently* is not)
+
+### 4. Quantity over quality.
+
+Your only concern is daily new comments rate.
