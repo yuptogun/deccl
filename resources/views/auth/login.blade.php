@@ -32,7 +32,7 @@ html, body {
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="비밀번호" required />
         <div class="checkbox mb-3">
             <label>
-                <input type="checkbox" name="remember" value="1"> 자동 로그인
+                <input type="checkbox" name="remember" value="1"> 로그인 유지
             </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>

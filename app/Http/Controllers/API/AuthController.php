@@ -34,17 +34,21 @@ class AuthController extends APIController
             return $this->responseAJAX(404, 'No matching credential.');
         }
 
+        // 로그인 유지 여부 확인
+        $shouldRemember = request()->has('remember');
+
         // JWT 생성
-        $token = JWT::encode([
+        $payload = [
             'sub' => $user->getKey(),
             'aud' => request()->ip(),
             'iat' => time(),
-            'exp' => strtotime('+1 year'),
-        ], env('JWT_SECRET'));
+        ];
+        if ($shouldRemember) $payload['exp'] = strtotime('+1 year');
+        $token = JWT::encode($payload, env('JWT_SECRET'));
 
         // 반환
         return response()
             ->json(['message' => 'SUCCESS', 'redirect' => route('home.index')], 200)
-            ->withCookie(new Cookie('Authorization', $token, strtotime('+1 year')));
+            ->withCookie(new Cookie('Authorization', $token, $shouldRemember ? strtotime('+1 year') : 0));
     }
 }
