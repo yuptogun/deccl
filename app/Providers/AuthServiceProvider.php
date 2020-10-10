@@ -30,9 +30,16 @@ class AuthServiceProvider extends ServiceProvider
         $this->app['auth']->viaRequest('api', function ($request) {
             if ($request->header('Authorization')) {
                 $token = explode(' ', $request->header('Authorization'))[1];
-                if ($jwt = JWT::decode($token, env('JWT_SECRET'), ['HS256'])) {
-                    return User::find($jwt->sub);
-                }
+            } else if ($request->cookie('Authorization')) {
+                $token = $request->cookie('Authorization');
+            } else {
+                return null;
+            }
+
+            if ($jwt = JWT::decode($token, env('JWT_SECRET'), ['HS256'])) {
+                return User::find($jwt->sub);
+            } else {
+                return null;
             }
         });
     }
