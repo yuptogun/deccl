@@ -9,14 +9,6 @@ html, body {
 #form-signin {
     min-width: 240px;
 }
-#inputEmail {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-#inputPassword {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
 </style>
 @endpush
 
@@ -27,14 +19,14 @@ html, body {
         <p>계정이 있다면? <a href="{{ route('auth.login') }}">로그인</a></p>
         <div class="form-errors"></div>
         <label for="inputEmail" class="sr-only">이메일 주소</label>
-        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="이메일 주소" autofocus="on" required />
+        <input type="email" name="email" id="inputEmail" class="form-control input-group-stacked" placeholder="이메일 주소" autofocus="on" required />
         <label for="inputPassword" class="sr-only">비밀번호</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="최소 6자 이상" minlength="6" required />
-        <label for="inputPassword" class="sr-only">비밀번호 확인</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="한 번 더 입력" minlength="6" required />
+        <input type="password" name="password" id="inputPassword" class="form-control input-group-stacked" placeholder="최소 6자 이상" minlength="6" required />
+        <label for="inputPasswordConfirm" class="sr-only">비밀번호 확인</label>
+        <input type="password" name="password_confirm" id="inputPasswordConfirm" class="form-control input-group-stacked" placeholder="한 번 더 입력" minlength="6" required />
         <div class="checkbox mb-3 mt-3">
             <label>
-                <input type="checkbox" name="agreed"" value="1" required />
+                <input type="checkbox" name="agreed_terms" value="1" required />
                 <a href="#" data-toggle="modal" data-target="#modalTerms">{{ env('APP_NAME') }} 이용약관</a>에 동의합니다.
             </label>
         </div>
