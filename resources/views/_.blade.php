@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ (isset($title) ? $title.' :: ' : '').env('APP_NAME') }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;700&family=Noto+Sans+KR:wght@300;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ app('url')->asset('css/deccl.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/deccl.css') }}">
     @stack('styles')
     @stack('scripts')
     @stack('head_after')
@@ -16,7 +16,7 @@
     @stack('body_before')
     @section('body')
     @show
-    <script src="{{ app('url')->asset('js/deccl.js') }}"></script>
+    <script src="{{ mix('js/deccl.js') }}"></script>
     @stack('body_after')
 </body>
 </html>
