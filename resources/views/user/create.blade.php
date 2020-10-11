@@ -18,12 +18,14 @@ html, body {
         <h1 class="h3 mb-3 font-weight-normal">회원가입</h1>
         <p>계정이 있다면? <a href="{{ route('auth.login') }}">로그인</a></p>
         <div class="form-errors"></div>
+        <label for="inputName" class="sr-only">닉네임</label>
+        <input type="text" name="name" id="inputName" class="form-control input-group-stacked" placeholder="닉네임" autofocus="on" />
         <label for="inputEmail" class="sr-only">이메일 주소</label>
         <input type="email" name="email" id="inputEmail" class="form-control input-group-stacked" placeholder="이메일 주소" autofocus="on" required />
         <label for="inputPassword" class="sr-only">비밀번호</label>
-        <input type="password" name="password" id="inputPassword" class="form-control input-group-stacked" placeholder="최소 6자 이상" minlength="6" required />
+        <input type="password" name="password" id="inputPassword" class="form-control input-group-stacked" placeholder="비밀번호" minlength="6" required />
         <label for="inputPasswordConfirm" class="sr-only">비밀번호 확인</label>
-        <input type="password" name="password_confirm" id="inputPasswordConfirm" class="form-control input-group-stacked" placeholder="한 번 더 입력" minlength="6" required />
+        <input type="password" name="password_confirm" id="inputPasswordConfirm" class="form-control input-group-stacked" placeholder="비밀번호 확인" minlength="6" required />
         <div class="checkbox mb-3 mt-3">
             <label>
                 <input type="checkbox" name="agreed_terms" value="1" required />

@@ -21,7 +21,7 @@ class Controller extends BaseController
     }
 
     /**
-     * alert() 를 실행한 뒤 바로 어딘가로 이동하는 응답을 제공합니다.
+     * alert() 를 실행한 뒤 바로 어딘가로 이동하는 응답을 제공한다.
      *
      * @param integer $httpCode HTTP 응답 코드
      * @param string $message alert() 실행할 메시지
@@ -39,12 +39,13 @@ class Controller extends BaseController
     /**
      * HTTP 상태코드와 필요한 내용을 전달한다.
      *
-     * @param integer $code
-     * @param string $message
-     * @param string $redirect
+     * @param integer $code HTTP 응답 코드
+     * @param string $message alert() 실행할 메시지
+     * @param string $redirect 리디렉션 url. 별도 지정하지 않으면 AJAX 콜 발생한 그자리에 가만히 있는다.
+     * @param array $data 혹시나 필요한 데이터가 있으면 넘길 것
      * @return \Illuminate\Http\JsonResponse
      */
-    public function responseAJAX($code = 400, $message = 'Bad Request', $data = null, $redirect = null)
+    public function responseAJAX($code = 400, $message = 'Bad Request', $redirect = null, $data = null)
     {
         $body = compact('message');
         if ($data) $body = array_merge($body, compact('data'));

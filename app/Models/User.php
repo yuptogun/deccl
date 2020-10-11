@@ -18,6 +18,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory;
 
+    protected $primaryKey = 'id';
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->password = Hash::make($user->password);
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *

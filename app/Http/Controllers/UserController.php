@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\User;
+
 use Illuminate\Http\Request;
 
 /**
@@ -23,6 +25,10 @@ class UserController extends Controller
             'agreed_terms' => 'required',
         ]);
 
-        return $this->responseAJAX(500, '개발중!');
+        $user = new User;
+        $user->fill($request->input());
+        if (!$user->save()) return $this->responseAJAX(500, '다시 시도해 주세요.');
+
+        return $this->responseAJAX(200, '가입되셨습니다! 로그인 화면으로 이동합니다.', route('auth.login'));
     }
 }
