@@ -40,10 +40,16 @@ $('body').on('submit', 'form.ajax', function (e) {
             $.each(errors, function (key, value) {
                 output.push(value);
             });
-            bootbox.alert({
+            let failure = {
                 title: '오류!',
                 message: output.join("<br />")
-            });
+            };
+            if (xhr.responseJSON.redirect) {
+                failure.callback = function () {
+                    window.location.href = xhr.responseJSON.redirect;
+                };
+            }
+            bootbox.alert(failure);
         }
     };
     if (action && method) {
@@ -65,37 +71,24 @@ $('body').on('submit', 'form.ajax', function (e) {
         $.ajax(ajax)
         .done(function (data) {
             if (data.message) {
-                bootbox.alert({
+                let success = {
                     title: '성공!',
                     message: data.message
-                });
-            }
-            // if (data.data.token) {
-            //     if (data.data.token == '') {
-            //         Cookies.remove('Authorization');
-            //     } else {
-            //         Cookies.set('Authorization', data.data.token, {expires: 365});
-            //     }
-            // }
-            if (data.redirect) {
-                window.location.href = data.redirect;
+                };
+                if (data.redirect) {
+                    success.callback = function () {
+                        window.location.href = data.redirect;
+                    };
+                }
+                bootbox.alert(success);
             }
         }).fail(function (xhr, err) {
-            // if (xhr.status == 422) {
-                var errors = xhr.responseJSON;
-                // console.log(errors);
-                if (errors.message) {
-                    showErrors([errors.message], xhr);
-                } else {
-                    showErrors(errors, xhr);
-                }
-                
-            // } else if (xhr.responseJSON) {
-            //     bootbox.alert({
-            //         title: '오류!',
-            //         message: xhr.responseJSON.message
-            //     });
-            // }
+            var errors = xhr.responseJSON;
+            if (errors.message) {
+                showErrors([errors.message], xhr);
+            } else {
+                showErrors(errors, xhr);
+            }
         }).always(function () {
             $.unblockUI();
             return true;
