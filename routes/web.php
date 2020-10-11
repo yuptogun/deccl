@@ -6,4 +6,5 @@ $router->group(['as' => 'home'], function ($router) {
 
 $router->group(['as' => 'auth'], function ($router) {
     $router->get('login', ['uses' => 'AuthController@login', 'as' => 'login']);
+    $router->post('logout', ['uses' => 'AuthController@logout', 'as' => 'logout']);
 });

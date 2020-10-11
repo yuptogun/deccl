@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="#">{{ env('APP_NAME') }}</a>
+        <a class="navbar-brand" href="{{ app('url')->route('home.index') }}">{{ env('APP_NAME') }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,7 +21,10 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">내 정보</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a class="dropdown-item" href="#" onclick="document.getElementById('form-logout').submit();">로그아웃</a>
+                        <form id="form-logout"
+                            method="POST"
+                            action="{{ app('url')->route('auth.logout') }}"></form>
                     </div>
                 </li>
 @else

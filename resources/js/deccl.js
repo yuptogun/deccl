@@ -25,6 +25,27 @@ $('body').on('submit', 'form.ajax', function (e) {
     let formErrors = form.find('.form-errors');
     let action = form.data('action');
     let method = form.data('method');
+    let showErrors = function (errors, xhr) {
+        if (formErrors.length) {
+            $.each(errors, function (key, value) {
+                let alertLevel = xhr.status >= 500 || xhr.status < 422 ? 'danger' : 'warning';
+                formErrors.append(
+                    '<div class="alert alert-' + alertLevel + ' alert-dismissible fade show" role="alert">'
+                    + value
+                    + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+                    + '</div>');
+            });
+        } else {
+            let output = [];
+            $.each(errors, function (key, value) {
+                output.push(value);
+            });
+            bootbox.alert({
+                title: '오류!',
+                message: output.join("<br />")
+            });
+        }
+    };
     if (action && method) {
         $.blockUI({
             message: ''
@@ -63,26 +84,12 @@ $('body').on('submit', 'form.ajax', function (e) {
             // if (xhr.status == 422) {
                 var errors = xhr.responseJSON;
                 // console.log(errors);
-                if (formErrors.length) {
-                    let output = form.find('.form-errors');
-                    $.each(errors, function (key, value) {
-                        let alertLevel = xhr.status >= 500 || xhr.status < 422 ? 'danger' : 'warning';
-                        output.append(
-                            '<div class="alert alert-' + alertLevel + ' alert-dismissible fade show" role="alert">'
-                            + value
-                            + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
-                            + '</div>');
-                    });
+                if (errors.message) {
+                    showErrors([errors.message], xhr);
                 } else {
-                    let output = [];
-                    $.each(errors, function (key, value) {
-                        output.push(value);
-                    });
-                    bootbox.alert({
-                        title: '오류!',
-                        message: output.join("<br />")
-                    });
+                    showErrors(errors, xhr);
                 }
+                
             // } else if (xhr.responseJSON) {
             //     bootbox.alert({
             //         title: '오류!',
