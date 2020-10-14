@@ -35,7 +35,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
 
     /**
@@ -46,4 +46,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    protected $dates = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function getHasVerifiedEmailAttribute()
+    {
+        return (bool) $this->email_verified_at;
+    }
 }

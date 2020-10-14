@@ -6,10 +6,12 @@ $router->group(['as' => 'home'], function ($router) {
 
 $router->group(['prefix' => 'user', 'as' => 'user'], function ($router) {
     $router->get('create', ['uses' => 'UserController@create', 'as' => 'create']);
-    $router->post('/', ['uses' => 'UserController@store', 'as' => 'store']);
+    $router->post('/',     ['uses' => 'UserController@store',  'as' => 'store']);
+    $router->get('{user}', ['uses' => 'UserController@show',   'as' => 'show']);
+    $router->put('{user}', ['uses' => 'UserController@update', 'as' => 'update']);
 });
 
 $router->group(['as' => 'auth'], function ($router) {
-    $router->get('login', ['uses' => 'AuthController@login', 'as' => 'login']);
+    $router->get('login',   ['uses' => 'AuthController@login',  'as' => 'login']);
     $router->post('logout', ['uses' => 'AuthController@logout', 'as' => 'logout']);
 });
