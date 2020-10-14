@@ -22,7 +22,7 @@ html, body {
 
 @section('body')
 <div class="d-flex h-100 justify-content-center align-items-center">
-    <form class="ajax text-center" id="form-signin" data-method="POST" data-action="{{ route('api.auth.login') }}">
+    <form class="ajax text-center" id="form-signin" data-method="POST" data-action="{{ route('api.auth.login') }}" data-redirect="{{ route('home.index') }}">
         <h1 class="h3 mb-3 font-weight-normal">로그인</h1>
         <p>계정이 없다면? <a href="{{ route('user.create') }}">가입하기</a></p>
         <div class="form-errors"></div>
