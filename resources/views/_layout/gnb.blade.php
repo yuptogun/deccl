@@ -18,7 +18,7 @@
                         aria-haspopup="true" aria-expanded="false">
                         {{ $user->name }}
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">내 정보</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#" onclick="document.getElementById('form-logout').submit();">로그아웃</a>
