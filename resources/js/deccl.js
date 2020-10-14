@@ -23,9 +23,33 @@ $('body').on('submit', 'form.ajax', function (e) {
     e.stopPropagation();
     let form = $(e.target);
     let formErrors = form.find('.form-errors');
-    let action = form.data('action');
-    let method = form.data('method');
-    let showErrors = function (errors, xhr) {
+    let formAction = form.data('action');
+    let formMethod = form.data('method');
+    let formConfirm = form.data('confirm');
+    let formRedirect = form.data('redirect');
+    let onSuccess = function (data) {
+        let redirectIfSet = function (redirect = null) {
+            if (formRedirect) {
+                redirect = formRedirect;
+            }
+            if (redirect) {
+                window.location.href = redirect;
+            }
+        };
+        if (!data.message) {
+            redirectIfSet(data.redirect);
+        } else {
+            let success = {
+                title: '성공!',
+                message: data.message
+            };
+            if (data.redirect) {
+                success.callback = redirectIfSet(data.redirect);
+            }
+            bootbox.alert(success);
+        }
+    };
+    let onFailure = function (errors, xhr) {
         if (formErrors.length) {
             $.each(errors, function (key, value) {
                 let alertLevel = xhr.status >= 500 || xhr.status < 422 ? 'danger' : 'warning';
@@ -52,46 +76,35 @@ $('body').on('submit', 'form.ajax', function (e) {
             bootbox.alert(failure);
         }
     };
-    if (action && method) {
-        $.blockUI({
-            message: ''
-        });
-        if (formErrors.length) {
-            formErrors.html('');
-        }
-        let ajax = {
-            url: action,
-            type: method,
-            dataType: 'JSON',
-            data: form.serializeArray()
-        };
-        if (Cookies.get('Authorization')) {
-            ajax.headers.Authorization = 'Bearer ' + Cookies.get('Authorization');
-        }
-        $.ajax(ajax)
-        .done(function (data) {
-            if (data.message) {
-                let success = {
-                    title: '성공!',
-                    message: data.message
-                };
-                if (data.redirect) {
-                    success.callback = function () {
-                        window.location.href = data.redirect;
-                    };
+    if (formAction && formMethod) {
+        if (!formConfirm || bootbox.confirm(formConfirm)) {
+            let ajax = {
+                url: formAction,
+                type: formMethod,
+                dataType: 'JSON',
+                data: form.serializeArray()
+            };
+            if (Cookies.get('Authorization')) {
+                ajax.headers.Authorization = 'Bearer ' + Cookies.get('Authorization');
+            }
+            if (formErrors.length) {
+                formErrors.html('');
+            }
+            $.blockUI({message: ''});
+            $.ajax(ajax)
+            .done(function (data) {
+                onSuccess(data);
+            }).fail(function (xhr, err) {
+                var errors = xhr.responseJSON;
+                if (errors.message) {
+                    onFailure([errors.message], xhr);
+                } else {
+                    onFailure(errors, xhr);
                 }
-                bootbox.alert(success);
-            }
-        }).fail(function (xhr, err) {
-            var errors = xhr.responseJSON;
-            if (errors.message) {
-                showErrors([errors.message], xhr);
-            } else {
-                showErrors(errors, xhr);
-            }
-        }).always(function () {
-            $.unblockUI();
-            return true;
-        });
+            }).always(function () {
+                $.unblockUI();
+                return true;
+            });
+        }
     }
 });
