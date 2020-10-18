@@ -1,8 +1,8 @@
 # deccl
 
-https://deccl.us
+https://deccl.us (TBD)
 
-News Commentors' & Journalism Critics' Playground
+News Commentors' & Journalism Critics' Playground.
 
 ## Quick Start
 
@@ -32,15 +32,26 @@ $ php -S localhost:7700 -t public
 ## Stacks & Specification
 
 * Lumen Framework 8
-    * Cookie based authorization
+    * Cookie (or HTTP Authorization Bearer header) based authorization
     * `withFacades()`, `withEloquent()` enabled
-    * Basically it should have been developed as a Laravel app
 * Bootstrap 4
     * jQuery, popper.js, bootbox, BlockUI, js-cookie included
 * Laravel Echo, home-made service worker
     * Implementing real-time notifications
 
-## Keep it in mind...
+## How to contribute
+
+This repository follows Github Flow.
+
+1. `git pull origin main:main`
+2. `git checkout main`
+3. `git checkout -b feature/awesome-new-feature`
+4. `git add .`
+5. `git commit -m "Awesome New Feature! Please accept"`
+6. `git push -u origin`
+7. (wait for merge)
+
+## Code of Conduct
 
 ### 1. Let them talk to themselves.
 
