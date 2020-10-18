@@ -19,9 +19,25 @@ News Commentors' & Journalism Critics' Playground.
 ```bash
 $ composer install
 $ npm install
+$ cp .env.dev-eojin .env
+$ vi .env # set local database connection and your own secret keys & admin credential
+$ php artisan migrate
+$ php artisan db:seed --class=AddAdminUser
 ```
 
-### Running Server
+### Running Dev Server
+
+If you run [Valet](https://laravel.com/docs/master/valet) (highly recommended) :
+
+```bash
+$ cd ../
+$ valet secure deccl # typically https://deccl.test
+$ valet restart
+$ laravel-echo-server start
+$ php ./deccl/artisan queue:work
+```
+
+Otherwise :
 
 ```bash
 $ laravel-echo-server start
@@ -29,42 +45,51 @@ $ php artisan queue:work
 $ php -S localhost:7700 -t public
 ```
 
-## Stacks & Specification
-
-* Lumen Framework 8
-    * Cookie (or HTTP Authorization Bearer header) based authorization
-    * `withFacades()`, `withEloquent()` enabled
-* Bootstrap 4
-    * jQuery, popper.js, bootbox, BlockUI, js-cookie included
-* Laravel Echo, home-made service worker
-    * Implementing real-time notifications
-
 ## How to contribute
 
 This repository follows Github Flow.
 
-1. `git pull origin main:main`
-2. `git checkout main`
-3. `git checkout -b feature/awesome-new-feature`
-4. `git add .`
-5. `git commit -m "Awesome New Feature! Please accept"`
-6. `git push -u origin`
-7. (wait for merge)
+```bash
+$ git pull origin main:main
+$ git checkout main
+$ git checkout -b feature/awesome-new-feature
+$ git add .
+$ git commit -m "Awesome New Feature! Please review"
+$ git push -u origin feature/awesome-new-feature # and then wait for review
+```
+
+## Stacks & Specification
+
+### Stacks
+
+* Lumen Framework 8
+    * `withFacades()`, `withEloquent()` enabled
+* Bootstrap 4
+    * jQuery, popper.js, bootbox, BlockUI, js-cookie included
+* Laravel Echo
+    * Implementing real-time notifications
+    * A home-made service worker to be introduced
+
+### Specification
+
+* Pattern: Conventional MVC with hand written resourceful routes
+* Auth: Http-only Cookie and/or HTTP Authorization Bearer header based
+    * Token is JWT; IP check to be introduced
+* Architecture: Event-driven
+    * Everything that happens publicly here is basically queued beforehand
 
 ## Code of Conduct
 
-### 1. Let them talk to themselves.
+⚠ WARNING : SARCASM AHEAD ⚠
 
-Let them be happy with their own writings. Get them narcissistic.
+### 1. Make users narcissistic.
 
-### 2. Tell them you can be famous too.
+Let them be happy with their own opinions and actions. Do not try to change their minds. Encourage them to be the "celebrities."
 
-Reward them by the amount of the attention they drag. Produce some "celebrities."
+### 2. Make the entire experience too-easy-and-fun-to-be-healthy.
 
-### 3. Make the entire commenting process easy and addictive.
+Give them a good lie that making comments and reactions actually contributes to the world, which alone is *apparently* not.
 
-Give a good lie that making comments actually contributes to the world. (Which *apparently* is not)
+### 3. Make Quantity matters over quality, frequency over contents.
 
-### 4. Quantity over quality.
-
-Your only concern is daily new comments rate.
+Your only concern is daily new comments rate, not how empty or toxic or too-many they are.
