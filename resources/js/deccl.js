@@ -23,9 +23,37 @@ $('body').on('submit', 'form.ajax', function (e) {
     e.stopPropagation();
     let form = $(e.target);
     let formErrors = form.find('.form-errors');
-    let action = form.data('action');
-    let method = form.data('method');
-    let showErrors = function (errors, xhr) {
+    let formAction = form.data('action');
+    let formMethod = form.data('method');
+    let formConfirm = form.data('confirm');
+    let formRedirect = form.data('redirect');
+    let onSuccess = function (data) {
+        let redirectIfSet = function (redirect = null) {
+            if (formRedirect) {
+                redirect = formRedirect;
+            }
+            if (redirect) {
+                if (redirect == '#') {
+                    window.location.reload();
+                } else {
+                    window.location.href = redirect;
+                }
+            }
+        };
+        if (!data.message) {
+            redirectIfSet(data.redirect);
+        } else {
+            let success = {
+                title: '성공!',
+                message: data.message
+            };
+            if (data.redirect) {
+                success.callback = function () { redirectIfSet(data.redirect); };
+            }
+            bootbox.alert(success);
+        }
+    };
+    let onFailure = function (errors, xhr) {
         if (formErrors.length) {
             $.each(errors, function (key, value) {
                 let alertLevel = xhr.status >= 500 || xhr.status < 422 ? 'danger' : 'warning';
@@ -40,65 +68,47 @@ $('body').on('submit', 'form.ajax', function (e) {
             $.each(errors, function (key, value) {
                 output.push(value);
             });
-            bootbox.alert({
+            let failure = {
                 title: '오류!',
                 message: output.join("<br />")
-            });
+            };
+            if (xhr.responseJSON.redirect) {
+                failure.callback = function () {
+                    window.location.href = xhr.responseJSON.redirect;
+                };
+            }
+            bootbox.alert(failure);
         }
     };
-    if (action && method) {
-        $.blockUI({
-            message: ''
-        });
-        if (formErrors.length) {
-            formErrors.html('');
-        }
-        let ajax = {
-            url: action,
-            type: method,
-            dataType: 'JSON',
-            data: form.serializeArray()
-        };
-        if (Cookies.get('Authorization')) {
-            ajax.headers.Authorization = 'Bearer ' + Cookies.get('Authorization');
-        }
-        $.ajax(ajax)
-        .done(function (data) {
-            if (data.message) {
-                bootbox.alert({
-                    title: '성공!',
-                    message: data.message
-                });
+    if (formAction && formMethod) {
+        if (!formConfirm || bootbox.confirm(formConfirm)) {
+            let ajax = {
+                url: formAction,
+                type: formMethod,
+                dataType: 'JSON',
+                data: form.serializeArray()
+            };
+            if (Cookies.get('Authorization')) {
+                ajax.headers.Authorization = 'Bearer ' + Cookies.get('Authorization');
             }
-            // if (data.data.token) {
-            //     if (data.data.token == '') {
-            //         Cookies.remove('Authorization');
-            //     } else {
-            //         Cookies.set('Authorization', data.data.token, {expires: 365});
-            //     }
-            // }
-            if (data.redirect) {
-                window.location.href = data.redirect;
+            if (formErrors.length) {
+                formErrors.html('');
             }
-        }).fail(function (xhr, err) {
-            // if (xhr.status == 422) {
+            $.blockUI({message: ''});
+            $.ajax(ajax)
+            .done(function (data) {
+                onSuccess(data);
+            }).fail(function (xhr, err) {
                 var errors = xhr.responseJSON;
-                // console.log(errors);
                 if (errors.message) {
-                    showErrors([errors.message], xhr);
+                    onFailure([errors.message], xhr);
                 } else {
-                    showErrors(errors, xhr);
+                    onFailure(errors, xhr);
                 }
-                
-            // } else if (xhr.responseJSON) {
-            //     bootbox.alert({
-            //         title: '오류!',
-            //         message: xhr.responseJSON.message
-            //     });
-            // }
-        }).always(function () {
-            $.unblockUI();
-            return true;
-        });
+            }).always(function () {
+                $.unblockUI();
+                return true;
+            });
+        }
     }
 });

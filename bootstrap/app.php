@@ -6,7 +6,7 @@ require_once __DIR__.'/../vendor/autoload.php';
     dirname(__DIR__)
 ))->bootstrap();
 
-date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
+date_default_timezone_set(env('APP_TIMEZONE', 'Asia/Seoul'));
 
 $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
@@ -43,8 +43,11 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->router->group(['namespace' => 'App\Http\Controllers', 'middleware' => 'user'], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
-$app->router->group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api', 'prefix' => 'api'], function ($router) {
+$app->router->group(['namespace' => 'App\Http\Controllers\API', 'middleware' => 'user', 'as' => 'api', 'prefix' => 'api'], function ($router) {
     require __DIR__.'/../routes/api.php';
 });
+
+// todo 미들웨어로 빼기
+app('translator')->setlocale('ko');
 
 return $app;

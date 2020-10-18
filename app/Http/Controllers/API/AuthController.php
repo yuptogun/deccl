@@ -47,8 +47,7 @@ class AuthController extends APIController
         $token = JWT::encode($payload, env('JWT_SECRET'));
 
         // 반환
-        return response()
-            ->json(['message' => 'SUCCESS', 'redirect' => route('home.index')], 200)
+        return response()->json([], 200)
             ->withCookie(new Cookie('Authorization', $token, $shouldRemember ? strtotime('+1 year') : 0));
     }
 }

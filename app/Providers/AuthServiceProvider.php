@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Providers;
 
-use App\Models\User;
-
 use Firebase\JWT\JWT;
-
 use Illuminate\Support\ServiceProvider;
+
+use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {

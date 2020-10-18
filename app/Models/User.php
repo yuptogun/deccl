@@ -19,20 +19,29 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authenticatable, Authorizable, HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * 모델 기본동작
      *
-     * @var array
+     * @todo static::created() 만들어서 인증이메일 날리기
+     * @return void
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    public static function boot()
+    {
+        parent::boot();
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
+        static::creating(function ($user) {
+            $user->password = Hash::make($user->password);
+        });
+    }
+    protected $fillable = [
+        'name', 'email', 'password'
+    ];
     protected $hidden = [
         'password',
     ];
+    protected $dates = ['email_verified_at'];
+
+    public function getHasVerifiedEmailAttribute()
+    {
+        return (bool) $this->email_verified_at;
+    }
 }
