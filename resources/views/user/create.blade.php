@@ -14,10 +14,11 @@ html, body {
 
 @section('body')
 <div class="d-flex h-100 justify-content-center align-items-center">
-    <form class="ajax text-center" id="form-signup" data-method="POST" data-action="{{ route('user.store') }}">
+    <form class="ajax px-3 text-center" id="form-signup" data-method="POST" data-action="{{ route('api.user.store') }}">
         <h1 class="h3 mb-3 font-weight-normal">회원가입</h1>
         <p>계정이 있다면? <a href="{{ route('auth.login') }}">로그인</a></p>
         <div class="form-errors"></div>
+        <p><small>한 번 입력한 이메일은 변경이 불가합니다.</small></p>
         <label for="inputName" class="sr-only">닉네임</label>
         <input type="text" name="name" id="inputName" class="form-control input-group-stacked" placeholder="닉네임" autofocus="on" />
         <label for="inputEmail" class="sr-only">이메일 주소</label>

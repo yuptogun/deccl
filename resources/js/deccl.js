@@ -33,7 +33,11 @@ $('body').on('submit', 'form.ajax', function (e) {
                 redirect = formRedirect;
             }
             if (redirect) {
-                window.location.href = redirect;
+                if (redirect == '#') {
+                    window.location.reload();
+                } else {
+                    window.location.href = redirect;
+                }
             }
         };
         if (!data.message) {
@@ -44,7 +48,7 @@ $('body').on('submit', 'form.ajax', function (e) {
                 message: data.message
             };
             if (data.redirect) {
-                success.callback = redirectIfSet(data.redirect);
+                success.callback = function () { redirectIfSet(data.redirect); };
             }
             bootbox.alert(success);
         }

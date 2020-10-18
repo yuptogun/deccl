@@ -4,6 +4,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
+/**
+ * 이 사람이 로그인한 회원인가? 까지만 확인한다.
+ */
 class Authenticate
 {
     /**
