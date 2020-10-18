@@ -18,8 +18,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory;
 
-    protected $primaryKey = 'id';
-
+    /**
+     * 모델 기본동작
+     *
+     * @todo static::created() 만들어서 인증이메일 날리기
+     * @return void
+     */
     public static function boot()
     {
         parent::boot();
@@ -28,28 +32,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             $user->password = Hash::make($user->password);
         });
     }
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password'
     ];
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
     ];
-
-    protected $dates = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected $dates = ['email_verified_at'];
 
     public function getHasVerifiedEmailAttribute()
     {
