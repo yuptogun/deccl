@@ -40,6 +40,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
     protected $dates = ['email_verified_at'];
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getHasVerifiedEmailAttribute()
     {
         return (bool) $this->email_verified_at;
