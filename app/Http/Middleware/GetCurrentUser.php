@@ -7,7 +7,7 @@ use Firebase\JWT\JWT;
 use App\Models\User;
 
 /**
- * get current user on the web by "token" cookie.
+ * 토큰 쿠키 또는 요청 인증헤더 쪽에 정당한 JWT 가 있는지 확인한다.
  */
 class GetCurrentUser
 {

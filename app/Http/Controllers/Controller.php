@@ -31,7 +31,7 @@ class Controller extends BaseController
     public function alertAndGoBack($httpCode = 400, $message = '잘못된 접근입니다.', $redirect = null)
     {
         $script = '<script>alert("'.$message.'"); '.($redirect ? 'window.location.href = "'.$redirect.'"' : 'window.history.back();').'</script>';
-        $html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">.<title>'.env('APP_NAME').'</title></head><body>'.$script.'</body></html>';
+        $html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>'.env('APP_NAME').'</title></head><body>'.$script.'</body></html>';
 
         return response($html, $httpCode);
     }

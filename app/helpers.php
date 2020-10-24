@@ -1,5 +1,19 @@
 <?php
 
+if (!function_exists('is_valid_url')) {
+
+    /**
+     * 문자열을 주면 그게 유효한 URL 이 맞는지 알려준다.
+     *
+     * @param string $string
+     * @return boolean
+     */
+    function is_valid_url($string)
+    {
+        return filter_var($string, FILTER_VALIDATE_URL);
+    }
+}
+
 if (! function_exists('mix'))
 {
     /**
