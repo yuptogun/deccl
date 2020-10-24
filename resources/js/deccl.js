@@ -1,10 +1,11 @@
-import $ from 'jquery';
+// import $ from 'jquery';
 import Echo from 'laravel-echo';
 import Cookies from 'js-cookie';
 import 'block-ui';
 import 'popper.js';
 import 'bootstrap';
 
+window.$ = window.jQuery = require('jquery');
 window.bootbox = require('bootbox');
 
 window.io = require('socket.io-client');
@@ -26,8 +27,10 @@ window.Echo = new Echo({
  * @param {string} confirm 이 값을 주면 그 값대로 폼제출 전에 물어본다.
  * @param {string} redirect 이 값을 주면 성공시 그 url로 넘어간다.
  * @param {jQueryDOM} errorsDOM 이 값을 주면 실패시 에러메시지들을 여기에 뿌린다.
+ * @returns {object} 성공시 성공으로 돌아온 데이터 일체, 실패시 xhr error 객체
  */
 let doAJAX = function (action, method = 'POST', ajaxData = null, confirm = null, redirect = null, errorsDOM = null) {
+    let toReturn = null;
     let onSuccess = function (data) {
         let redirectIfSet = function (r = null) {
             if (redirect) {
@@ -53,6 +56,7 @@ let doAJAX = function (action, method = 'POST', ajaxData = null, confirm = null,
             }
             bootbox.alert(success);
         }
+        return data;
     };
     let onFailure = function (errors, xhr) {
         if (errorsDOM.length) {
@@ -100,18 +104,19 @@ let doAJAX = function (action, method = 'POST', ajaxData = null, confirm = null,
             $.blockUI({message: ''});
             $.ajax(ajax)
             .done(function (data) {
-                onSuccess(data, redirect);
+                toReturn = onSuccess(data, redirect);
             }).fail(function (xhr, err) {
-                var errors = xhr.responseJSON;
+                let errors = xhr.responseJSON;
                 if (errors.message) {
                     onFailure([errors.message], xhr);
                 } else {
                     onFailure(errors, xhr);
                 }
+                toReturn = errors;
             }).always(function () {
                 $.unblockUI();
-                return true;
             });
+            return toReturn;
         }
     }
 };

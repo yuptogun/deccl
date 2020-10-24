@@ -8,7 +8,8 @@
         "php": "^7.3",
         "firebase/php-jwt": "^5.2",
         "laravel-lang/lang": "^7.0",
-        "laravel/lumen-framework": "^8.0"
+        "laravel/lumen-framework": "^8.0",
+        "paquettg/php-html-parser": "^3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",
