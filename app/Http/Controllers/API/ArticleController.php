@@ -20,7 +20,7 @@ class ArticleController extends APIController
      */
     public function findOrNew(Request $request)
     {
-        if ($request->ajax()) return $this->alertAndGoBack();
+        if (!$request->ajax()) return $this->alertAndGoBack();
 
         $this->validate($request, [
             'search' => 'required',
@@ -31,7 +31,11 @@ class ArticleController extends APIController
 
         if (empty($articles)) return $this->responseAJAX(416, '제목으로 검색하지 못했습니다. URL을 입력해 주시면 추가해 드리겠습니다.');
 
-        return $this->responseAJAX(200, compact('articles'));
+        $articles->transform(function ($article) {
+            return view('comment._radio_article', compact('article'))->render();
+        });
+
+        return response()->json(compact('articles'));
     }
 
     /**

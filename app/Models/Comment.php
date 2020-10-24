@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,17 @@ class Comment extends Model
     }
     public function article()
     {
-        return $this->hasOne(Article::class);
+        return $this->hasOne(Article::class, 'id');
+    }
+
+    /**
+     * 대략 최근 5일간의 것으로 제한하는 스코프
+     *
+     * @param \Illuminate\Database\Query\Builder $query
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeRecent($query)
+    {
+        return $query->where('created_at', '>=', Carbon::now()->subDay(5)->startOfDay());
     }
 }

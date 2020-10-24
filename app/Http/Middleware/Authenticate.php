@@ -3,6 +3,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Illuminate\Support\Facades\Log;
 
 /**
  * 이 사람이 로그인한 회원인가? 까지만 확인한다.
@@ -38,8 +39,11 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+            return $request->ajax() ?
+                response('Unauthorized.', 401) :
+                redirect()->route('auth.login');
         }
+        if (env('ADMIN_PANIC')) Log::info($this->auth->guard($guard)->user());
 
         return $next($request);
     }
