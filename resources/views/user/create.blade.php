@@ -34,7 +34,9 @@ html, body {
             </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">가입</button>
-        <p class="mt-5 mb-3 text-muted">© 2020{{ date('Y') > 2020 ? ' - '.date('Y') : '' }}, {{ env('APP_NAME') }}</p>
+        <div class="mt-3">
+            @include('_layout/footer_simple')
+        </div>
     </form>
 </div>
 <div class="modal fade" id="modalTerms" tabindex="-1" aria-labelledby="modalLabelTerms" aria-hidden="true">

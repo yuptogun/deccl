@@ -38,4 +38,9 @@ class Comment extends Model
     {
         return $query->where('created_at', '>=', Carbon::now()->subDay(5)->startOfDay());
     }
+
+    public function getSummaryAttribute()
+    {
+        return explode('<br>', $this->comment)[0];
+    }
 }
