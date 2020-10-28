@@ -21,7 +21,54 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-bottom-left-radius: $input-border-radius;
     border-bottom-right-radius: $input-border-radius;
 }
+.masonry {
+    @include media-breakpoint-up(md) {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+    @include media-breakpoint-up(lg) {
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+    }
+    @include media-breakpoint-up(xl) {
+        -webkit-column-count: 4;
+        -moz-column-count: 4;
+        column-count: 4;
+    }
+    // @include media-breakpoint-up(xl) {
+    //     -webkit-column-count: 5;
+    //     -moz-column-count: 5;
+    //     column-count: 5;
+    // }
+    -webkit-column-gap: 1em;
+    -moz-column-gap: 1em;
+    column-gap: 1em;
+    // margin: 1.5em;
+    // padding: 0;
+}
+.masonry-item {
+    display: inline-block;
+}
+
+.deccl .deccl-article h6 {
+    font-size: 87.5%;
+    color: $gray-700;
+}
+.deccl .deccl-comment {
+    top: -1.75rem;
+}
+.deccl .deccl-comment p {
+    margin-bottom: 0.25rem;
+}
 
 body > nav.navbar + div.d-flex.h-100 {
     margin-top: -56px;
+}
+#home-deccl {
+    margin-bottom: -1rem;
+}
+#home-deccl h4 {
+    font-size: 1.125rem;
 }

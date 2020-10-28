@@ -1,13 +1,19 @@
 @extends('_full')
 
-@section('body')
+@push('content')
 <div class="container my-3">
     <div class="row">
         <div class="col">
-            <h3>지금 올라온 뉴스 + 댓글</h3>
+            <div id="home-deccl">
+                <h4>지금 올라온 뉴스 + 댓글</h4>
+                <div class="masonry">
 @foreach ($recentComments as $comment)
+                    <div class="masonry-item">
 @include('comment._deccl', compact('comment'))
+                    </div>
 @endforeach
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -21,4 +27,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endpush

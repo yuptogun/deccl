@@ -36,7 +36,9 @@ html, body {
             </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
-        <p class="mt-5 mb-3 text-muted">© 2020{{ date('Y') > 2020 ? ' - '.date('Y') : '' }}, {{ env('APP_NAME') }}</p>
+        <div class="mt-3">
+            @include('_layout/footer_simple')
+        </div>
     </form>
 </div>
 @endsection
