@@ -10,7 +10,7 @@
 
 @push('content')
 <div class="container">
-    <div class="row mt-3 mb-5">
+    <div class="deccl deccl-full row mt-3 mb-5">
         @include('comment._deccl.full', compact('comment'))
     </div>
 </div>
