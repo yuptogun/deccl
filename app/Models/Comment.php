@@ -41,6 +41,21 @@ class Comment extends Model
 
     public function getSummaryAttribute()
     {
-        return explode('<br>', $this->comment)[0];
+        $firstLine = explode('<br>', $this->comment)[0];
+        return str_replace('</p>', '', str_replace('<p>', '', $firstLine));
+    }
+    public function getInfoAttribute()
+    {
+        $name = $this->user->name;
+        $ago = $this->created_at->diffForHumans();
+        return trans('comment.attr.info', get_defined_vars());
+    }
+    public function getSummaryWithInfoAttribute()
+    {
+        $name = $this->user->name;
+        $ago = $this->created_at->diffForHumans();
+        $summary = $this->summary;
+        $info = $this->info;
+        return trans('comment.attr.summary_with_info', get_defined_vars());
     }
 }
