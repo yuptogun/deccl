@@ -1,7 +1,8 @@
 <?php
 namespace App\Listeners\Article;
 
-use App\Models\Article;
+use App\Services\Crawler\ArticleCrawler;
+use Illuminate\Support\Facades\Log;
 
 /**
  * URL 을 받아서 기사 데이터 입력하는 리스너
@@ -16,15 +17,11 @@ class InitialCreate
      */
     public function handle($event)
     {
+        Log::debug($event->url);
         if (!$event->url || !is_valid_url($event->url)) return false;
 
-        $article = new Article;
-        $article->fill([
-            'url' => $event->url,
-            'title' => $event->url, // 이 필드에 뭐라도 박아야 함
-        ]);
-        if (!$article->save()) return false;
-
-        return $article;
+        $cralwer = new ArticleCrawler;
+        $article = $cralwer->crawl($event->url);
+        return $article ?: false;
     }
 }

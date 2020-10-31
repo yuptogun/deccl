@@ -26,7 +26,7 @@ class Comment extends Model
     }
     public function article()
     {
-        return $this->hasOne(Article::class, 'id');
+        return $this->hasOne(Article::class, 'id', 'article_id');
     }
 
     /**

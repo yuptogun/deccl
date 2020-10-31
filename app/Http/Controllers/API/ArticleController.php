@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Events\Article\ShouldBeCreated;
 
 use App\Http\Controllers\APIController;
+use Illuminate\Support\Facades\Log;
 
 /**
  * 기사 관련 API
@@ -46,15 +47,21 @@ class ArticleController extends APIController
      */
     private function searchArticlesOrCreateOne($search)
     {
+        Log::debug('searchArticles 시작');
         $articles = Article::where(function ($a) use ($search) {
             $a->where('url', 'like', "%$search%")
             ->orWhere('title', 'like', "%$search%");
         })->get();
 
-        if (!$articles) {
+        if ($articles->isEmpty()) {
             if (is_valid_url($search)) {
-                event(new ShouldBeCreated($search));
-                return $this->searchArticlesOrCreateOne($search);
+                Log::debug('url 맞음');
+                $created = event(new ShouldBeCreated($search));
+                Log::debug('이벤트 실행함');
+                Log::debug($created);
+                if ($created) {
+                    return $this->searchArticlesOrCreateOne($search);
+                }
             }
         }
 
