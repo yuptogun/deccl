@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col">
             <div id="home-deccl">
-                <h4>지금 올라온 뉴스 + 댓글</h4>
+                <h4>{{ '최근 '.(env('COMMENT_RECENT_DAYS') ? env('COMMENT_RECENT_DAYS').'일간 ' : '') }}올라온 뉴스 + 댓글</h4>
                 <div class="masonry">
 @foreach ($recentComments as $comment)
                     <div class="masonry-item">
