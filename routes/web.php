@@ -4,10 +4,12 @@ $router->group(['as' => 'home'], function ($router) {
     $router->get('/', ['uses' => 'HomeController@index', 'as' => 'index']);
 });
 
+$router->get('@{user}', ['uses' => 'UserController@show', 'as' => 'user.showAsUsername']);
+
 $router->group(['prefix' => 'user', 'as' => 'user'], function ($router) {
-    $router->get('create', ['uses' => 'UserController@create', 'as' => 'create']);
-    $router->get('{user}', ['uses' => 'UserController@show',   'as' => 'show']);
-    // $router->put('{user}', ['uses' => 'UserController@update', 'as' => 'update']);
+    $router->get('create',      ['uses' => 'UserController@create', 'as' => 'create']);
+    $router->get('{user}',      ['uses' => 'UserController@show',   'as' => 'show']);
+    $router->get('{user}/edit', ['uses' => 'UserController@edit',   'as' => 'edit']);
 });
 
 $router->group(['prefix' => 'comment', 'as' => 'comment'], function ($router) {

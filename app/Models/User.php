@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Models\User\Property;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -44,7 +45,25 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->hasMany(Comment::class);
     }
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class);
+    }
+    public function property()
+    {
+        return $this->hasOne(Property::class);
+    }
 
+    public function getProperNameAttribute()
+    {
+        return $this->name ?: ($this->property && $this->property->username ?: $this->email);
+    }
+    public function getProfilePictureAttribute()
+    {
+        return $this->property && $this->property->profile_picture
+            ? $this->property->profile_picture
+            : null;
+    }
     public function getHasVerifiedEmailAttribute()
     {
         return (bool) $this->email_verified_at;

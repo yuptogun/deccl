@@ -11,7 +11,7 @@
 @push('content')
 <div class="container">
     <div class="deccl deccl-full row mt-3 mb-5">
-        @include('comment._deccl.full', compact('comment'))
+        @include('comment._deccl.full', ['comment' => $comment, 'inColumns' => true])
     </div>
 </div>
 @endpush

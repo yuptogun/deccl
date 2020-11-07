@@ -24,14 +24,20 @@ window.Echo = new Echo({
  * @param {string} action 호출할 URL
  * @param {string} method 기본값은 'POST'
  * @param {mixed} ajaxData 전송할 데이터
+ * @param {string} contentType enctype 필드 값
  * @returns {object} 이걸 가지고 $.ajax() 할수있음
  */
-window.getAJAXConfig = function (action, method = 'POST', ajaxData = null) {
+window.getAJAXConfig = function (action, method = 'POST', ajaxData = null, contentType = null) {
     let ajax = {
         url: action,
         type: method,
         dataType: 'JSON',
     };
+    if (contentType == 'multipart/form-data') {
+        ajax.processData = false;
+        ajax.contentType = false;
+        ajax.data = ajaxData;
+    }
     if (ajaxData) {
         ajax.data = ajaxData;
     }
@@ -49,9 +55,10 @@ window.getAJAXConfig = function (action, method = 'POST', ajaxData = null) {
  * @param {string} confirm 이 값을 주면 그 값대로 폼제출 전에 물어본다.
  * @param {string} redirect 이 값을 주면 성공시 그 url로 넘어간다.
  * @param {jQueryDOM} errorsDOM 이 값을 주면 실패시 에러메시지들을 여기에 뿌린다.
+ * @param {string} contentType 파일업로드 폼일 경우 multipart/form-data 를 넘긴다.
  * @returns {object} 성공시 성공으로 돌아온 데이터 일체, 실패시 xhr error 객체
  */
-window.doAJAX = function (action, method = 'POST', ajaxData = null, confirm = null, redirect = null, errorsDOM = null) {
+window.doAJAX = function (action, method = 'POST', ajaxData = null, confirm = null, redirect = null, errorsDOM = null, contentType = null) {
     let onSuccess = function (data) {
         let redirectIfSet = function (r = null) {
             if (redirect) {
@@ -105,26 +112,35 @@ window.doAJAX = function (action, method = 'POST', ajaxData = null, confirm = nu
             bootbox.alert(failure);
         }
     };
-    if (action && method) {
-        if (!confirm || bootbox.confirm(confirm)) {
-            let ajax = getAJAXConfig(action, method, ajaxData);
-            if (errorsDOM && errorsDOM.length) {
-                errorsDOM.html('');
+    let _doAJAX = function (action, method, ajaxData, redirect, errorsDOM, contentType) {
+        let ajax = getAJAXConfig(action, method, ajaxData, contentType);
+        if (errorsDOM && errorsDOM.length) {
+            errorsDOM.html('');
+        }
+        $.blockUI({message: ''});
+        $.ajax(ajax)
+        .done(function (data) {
+            onSuccess(data, redirect);
+        }).fail(function (xhr, err) {
+            let errors = xhr.responseJSON;
+            if (errors.message) {
+                onFailure([errors.message], xhr);
+            } else {
+                onFailure(errors, xhr);
             }
-            $.blockUI({message: ''});
-            $.ajax(ajax)
-            .done(function (data) {
-                onSuccess(data, redirect);
-            }).fail(function (xhr, err) {
-                let errors = xhr.responseJSON;
-                if (errors.message) {
-                    onFailure([errors.message], xhr);
-                } else {
-                    onFailure(errors, xhr);
+        }).always(function () {
+            $.unblockUI();
+        });
+    };
+    if (action && method) {
+        if (confirm) {
+            bootbox.confirm(confirm, function (result) {
+                if (result) {
+                    _doAJAX(action, method, ajaxData, redirect, errorsDOM, contentType);
                 }
-            }).always(function () {
-                $.unblockUI();
             });
+        } else {
+            _doAJAX(action, method, ajaxData, redirect, errorsDOM, contentType);
         }
     }
 };
@@ -136,11 +152,15 @@ window.doAJAX = function (action, method = 'POST', ajaxData = null, confirm = nu
 window.formAJAX = function (form) {
     let formAction = form.data('action');
     let formMethod = form.data('method');
+    let formContentType = form.attr('enctype') || null;
     let formData = form.serializeArray();
+    if (formContentType == 'multipart/form-data') {
+        formData = new FormData(form[0]);
+    }
     let formConfirm = form.data('confirm');
     let formRedirect = form.data('redirect');
     let formErrors = form.find('.form-errors');
-    return doAJAX(formAction, formMethod, formData, formConfirm, formRedirect, formErrors);
+    return doAJAX(formAction, formMethod, formData, formConfirm, formRedirect, formErrors, formContentType);
 }
 
 $('body').on('submit', 'form.ajax', function (e) {
@@ -148,3 +168,7 @@ $('body').on('submit', 'form.ajax', function (e) {
     e.stopPropagation();
     return formAJAX($(e.target));
 });
+
+$('body').on('change', '.custom-file-input', function (event) {
+    $(this).next('.custom-file-label').html(event.target.files[0].name);
+})

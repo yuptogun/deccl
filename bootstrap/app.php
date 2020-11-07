@@ -40,10 +40,17 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 
-$app->router->group(['namespace' => 'App\Http\Controllers', 'middleware' => 'user'], function ($router) {
+$app->router->group([
+    'namespace' => 'App\Http\Controllers',
+    'middleware' => 'user'
+], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
-$app->router->group(['namespace' => 'App\Http\Controllers\API', 'middleware' => 'user', 'as' => 'api', 'prefix' => 'api'], function ($router) {
+$app->router->group([
+    'as' => 'api', 'prefix' => 'api',
+    'namespace' => 'App\Http\Controllers\API',
+    'middleware' => 'user'
+], function ($router) {
     require __DIR__.'/../routes/api.php';
 });
 

@@ -12,7 +12,7 @@ html, body {
 </style>
 @endpush
 
-@section('body')
+@push('content')
 <div class="d-flex h-100 justify-content-center align-items-center">
     <form class="ajax px-3 text-center" id="form-signup" data-method="POST" data-action="{{ route('api.user.store') }}">
         <h1 class="h3 mb-3 font-weight-normal">회원가입</h1>
@@ -62,4 +62,4 @@ html, body {
         </div>
     </div>
 </div>
-@endsection
+@endpush
