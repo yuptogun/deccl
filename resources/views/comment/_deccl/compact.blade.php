@@ -7,7 +7,7 @@
     <div class="deccl-comment">
         <div class="deccl-comment-container p-3 rounded shadow bg-white">
             <small class="d-block text-muted mb-1">
-                {{ $comment->user->name }}, <a href="{{ route('comment.show', compact('comment')) }}" class="text-muted">{{ $comment->created_at->diffForHumans() }}</a>
+                <a href="{{ route('user.show', ['user' => $comment->user]) }}" class="text-muted">{{ $comment->user->name }}</a>, <a href="{{ route('comment.show', compact('comment')) }}" class="text-muted">{{ $comment->created_at->diffForHumans() }}</a>
             </small>
             <div>{!! $comment->summary !!}</div>
             <div class="row">
