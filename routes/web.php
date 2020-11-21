@@ -13,9 +13,9 @@ $router->group(['prefix' => 'user', 'as' => 'user'], function ($router) {
 });
 
 $router->group(['prefix' => 'comment', 'as' => 'comment'], function ($router) {
-    $router->get('create',    ['uses' => 'CommentController@create', 'as' => 'create']);
-    $router->get('{comment}', ['uses' => 'CommentController@show',   'as' => 'show']);
-    // $router->put('{user}', ['uses' => 'UserController@update', 'as' => 'update']);
+    $router->get('create',         ['uses' => 'CommentController@create', 'as' => 'create']);
+    $router->get('{comment}',      ['uses' => 'CommentController@show',   'as' => 'show']);
+    $router->get('{comment}/edit', ['uses' => 'CommentController@edit',   'as' => 'edit']);
 });
 
 $router->group(['as' => 'auth'], function ($router) {

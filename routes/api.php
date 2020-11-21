@@ -17,7 +17,8 @@ $router->group(['as' => 'user', 'prefix' => 'user'], function ($router) {
 });
 
 $router->group(['as' => 'comment', 'prefix' => 'comment'], function ($router) {
-    $router->post('/',     ['uses' => 'CommentController@store',  'as' => 'store']);
+    $router->post('/',        ['uses' => 'CommentController@store',  'as' => 'store']);
+    $router->put('{comment}', ['uses' => 'CommentController@update', 'as' => 'update']);
 });
 
 $router->group(['as' => 'article', 'prefix' => 'article'], function ($router) {

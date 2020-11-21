@@ -2,6 +2,7 @@
 namespace App\Providers;
 
 use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 use App\Models\User;
@@ -39,6 +40,10 @@ class AuthServiceProvider extends ServiceProvider
             } else {
                 return null;
             }
+        });
+
+        Gate::define('update-comment', function ($user, $comment) {
+            return $user->id === $comment->user_id;
         });
     }
 }
