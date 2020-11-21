@@ -15,7 +15,16 @@
                     👍 <span class="badge badge-pill badge-light">1</span>
                 </div>
                 <div class="col text-right">
-                    <a href="#"><small>나도 댓글 달기</small></a>
+                    <ul class="list-inline">
+@if (Gate::forUser($user)->allows('update-comment', $comment))
+                        <li class="list-inline-item">
+                            <a href="{{ route('comment.edit', compact('comment')) }}"><small>수정</small></a>
+                        </li>
+@endif
+                        <li class="list-inline-item">
+                            <a href="#"><small>나도 댓글 달기</small></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
