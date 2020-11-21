@@ -1,4 +1,4 @@
-@extends('_')
+@extends('_full')
 
 @push('styles')
 <style>
