@@ -40,7 +40,7 @@
             <label for="username" class="col-lg-3 col-form-label">사용자 ID</label>
             <div class="col-lg-9">
                 <div class="input-group">
-                    <input type="text" name="username" value="{{ $user->property->username }}"
+                    <input type="text" name="username" value="{{ $user->property ? $user->property->username : '' }}"
                     class="form-control"
                     placeholder="영대소문자, 숫자, _, - 만 허용"
                     pattern="[a-zA-Z0-9\-_]+" />
