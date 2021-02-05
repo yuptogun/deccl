@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Free Sans';
+    font-style: normal;
+    font-weight: normal;
+    src: local('FreeSans'), url('FreeSans.woff') format('woff');
+}
+@font-face {
+    font-family: 'Free Sans';
+    font-style: oblique;
+    font-weight: normal;
+    src: local('FreeSans'), url('FreeSansOblique.woff') format('woff');
+}
+@font-face {
+    font-family: 'Free Sans';
+    font-style: normal;
+    font-weight: bold;
+    src: local('FreeSans Bold'), url('FreeSansBold.woff') format('woff');
+}
+@font-face {
+    font-family: 'Free Sans';
+    font-style: oblique;
+    font-weight: bold;
+    src: local('FreeSans'), url('FreeSansBoldOblique.woff') format('woff');
+}
