@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">준비중</a>
+                    <a class="nav-link" href="{{ route('comment.create') }}">새 댓글 쓰기</a>
                 </li>
             </ul>
             <ul class="navbar-nav nav-right">
