@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\IsEntryModel;
-
+use App\Traits\IsSearchableModel;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -15,10 +15,13 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use SoftDeletes;
-    use IsEntryModel;
+    use IsEntryModel, IsSearchableModel;
 
     protected $fillable = [
         'url', 'title', 'summary', 'thumbnail',
+    ];
+    public $searchable = [
+        'url', 'title', 'summary',
     ];
 
     public function comments()
