@@ -90,6 +90,23 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
         margin-bottom: 1rem;
     }
 }
+.form-reaction .form-check {
+    margin-right: 0.25em;
+    margin-bottom: 0.25em;
+}
+.form-reaction input.form-check-input[type=radio] {
+    display: none;
+}
+.form-reaction .form-check-label {
+    @extend .rounded;
+    @extend .border;
+    cursor: pointer;
+    padding: 0.25em;
+}
+.form-reaction .form-check-input:checked + .form-check-label {
+    @extend .border-primary;
+    @extend .bg-primary;
+}
 
 body > nav.navbar + div.d-flex.h-100 {
     margin-top: -56px;

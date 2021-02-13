@@ -1,5 +1,33 @@
 <?php
 
+if (!function_exists('get_emoji_regex'))
+{
+    /**
+     * 이모지에 매칭되는 regex 를 반환한다.
+     *
+     * @see https://stackoverflow.com/a/12824140
+     * @return string
+     */
+    function get_emoji_regex()
+    {
+        return '[\x{1F600}-\x{1F64F}]|[\x{1F300}-\x{1F5FF}]|[\x{1F680}-\x{1F6FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]';
+    }
+}
+
+if (!function_exists('is_emoji'))
+{
+    /**
+     * 문자를 주면 그게 이모지인지 알려준다.
+     *
+     * @param string $character
+     * @return boolean
+     */
+    function is_emoji($character)
+    {
+        return (bool) preg_match('/^'.get_emoji_regex().'$/mu', $character);
+    }
+}
+
 if (!function_exists('is_valid_url'))
 {
     /**
