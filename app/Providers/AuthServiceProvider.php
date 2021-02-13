@@ -3,9 +3,12 @@ namespace App\Providers;
 
 use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
 
 use App\Models\User;
+
+use App\Policies\CommentPolicy;
+
+use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -42,8 +45,7 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        Gate::define('update-comment', function ($user, $comment) {
-            return $user->id === $comment->user_id;
-        });
+        Gate::define('update-comment', [CommentPolicy::class, 'update']);
+        Gate::define('destroy-comment', [CommentPolicy::class, 'destroy']);
     }
 }

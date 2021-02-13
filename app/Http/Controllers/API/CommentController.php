@@ -2,11 +2,11 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 use App\Models\Comment;
 
 use App\Http\Controllers\APIController;
-use Illuminate\Support\Facades\Gate;
 
 /**
  * 댓글 관련 API
@@ -40,5 +40,14 @@ class CommentController extends APIController
         $comment->fill($request->input());
         if (!$comment->save()) return $this->responseAJAX(500, '실패! 다시 시도해 주세요.', '#');
         return $this->responseAJAX(200, '성공했습니다.', route('comment.show', compact('comment')));
+    }
+    public function destroy(Request $request, $comment)
+    {
+        $comment = Comment::find($comment);
+        if (!Gate::forUser($request->user)->allows('destroy-comment', $comment)) {
+            return $this->responseAJAX(401, '권한이 없습니다.');
+        }
+        $deleted = $comment->delete();
+        return $this->responseAJAX($deleted ? 200 : 500, $deleted ? '삭제되었습니다.' : '실패! 다시 시도해 주세요.', $comment->user->url_profile);
     }
 }

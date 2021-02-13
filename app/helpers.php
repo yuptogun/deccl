@@ -1,7 +1,7 @@
 <?php
 
-if (!function_exists('is_valid_url')) {
-
+if (!function_exists('is_valid_url'))
+{
     /**
      * 문자열을 주면 그게 유효한 URL 이 맞는지 알려준다.
      *
