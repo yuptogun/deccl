@@ -3,6 +3,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Traits\IsEntryModel;
+
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use SoftDeletes;
+    use IsEntryModel;
 
     protected $fillable = [
         'url', 'title', 'summary', 'thumbnail',
