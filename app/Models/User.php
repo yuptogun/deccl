@@ -54,15 +54,25 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasOne(Property::class);
     }
 
-    public function getProperNameAttribute()
-    {
-        return $this->name ?: ($this->property && $this->property->username ?: $this->email);
-    }
     public function getProfilePictureAttribute()
     {
         return $this->property && $this->property->profile_picture
             ? $this->property->profile_picture
             : null;
+    }
+    public function getProperNameAttribute()
+    {
+        return $this->name ?: ($this->property && $this->property->username ?: $this->email);
+    }
+    public function getProperNameHtmlAttribute()
+    {
+        return $this->property && $this->property->username ? '@'.$this->property->username : $this->proper_name;
+    }
+    public function getUrlProfileAttribute()
+    {
+        return $this->property && $this->property->username
+            ? route('user.showAsUsername', ['user' => $this->property->username])
+            : route('user.show', ['user' => $this]);
     }
     public function getHasVerifiedEmailAttribute()
     {

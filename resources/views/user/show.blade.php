@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-@foreach ($user->comments as $comment)
+@foreach ($user->comments()->latest()->get() as $comment)
 @include('comment._deccl.full', compact('comment'))
 @endforeach
         </div>

@@ -25,7 +25,7 @@
 
     commentInput.summernote({
         height: 240,
-        placeholder: '이 기사에 대해 한마디 해주세요.',
+        placeholder: '이 기사에 대해 한마디 해 주세요.',
         toolbar: [
             ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']]
         ]
@@ -41,7 +41,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1 class="my-3">새 댓글 작성</h1>
+            <h1 class="my-3">새 댓글 쓰기</h1>
             <form class="ajax" data-method="POST" data-action="{{ route('api.comment.store') }}">
                 <div class="form-group row">
                     <label class="col-md-3 col-lg-2 col-form-label">기사</label>

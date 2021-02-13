@@ -18,7 +18,7 @@ class CommentController extends Controller
     public function create()
     {
         $user = $this->user;
-        $title = '새 댓글 작성';
+        $title = '새 댓글 쓰기';
         return view('comment.create', get_defined_vars());
     }
 

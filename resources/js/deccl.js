@@ -4,6 +4,7 @@ import 'block-ui';
 import 'popper.js';
 import 'bootstrap';
 import 'summernote/dist/summernote-bs4';
+import { confirm } from 'bootbox';
 
 window.$ = window.jQuery = require('jquery');
 window.bootbox = require('bootbox');
@@ -161,14 +162,31 @@ window.formAJAX = function (form) {
     let formRedirect = form.data('redirect');
     let formErrors = form.find('.form-errors');
     return doAJAX(formAction, formMethod, formData, formConfirm, formRedirect, formErrors, formContentType);
-}
+};
+/**
+ * 특정 요소에 ajax 클래스를 주면 data 속성들을 읽어서 AJAX 콜한다.
+ * @param {jQueryDOM} element a 또는 button 태그 요소
+ */
+window.buttonAJAX = function (element) {
+    let formAction = element.data('action');
+    let formMethod = element.data('method');
+    let formData = element.data();
+    let formConfirm = element.data('confirm');
+    let formRedirect = element.data('redirect');
+    return doAJAX(formAction, formMethod, formData, formConfirm, formRedirect);
+};
 
 $('body').on('submit', 'form.ajax', function (e) {
     e.preventDefault();
     e.stopPropagation();
     return formAJAX($(e.target));
 });
+$('body').on('click', 'a.ajax, button.ajax', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return buttonAJAX($(e.target));
+});
 
 $('body').on('change', '.custom-file-input', function (event) {
     $(this).next('.custom-file-label').html(event.target.files[0].name);
-})
+});
