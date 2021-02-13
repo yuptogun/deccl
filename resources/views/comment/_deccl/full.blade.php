@@ -15,7 +15,7 @@
                     👍 <span class="badge badge-pill badge-light">1</span>
                 </div>
                 <div class="col text-right">
-                    <ul class="list-inline">
+                    <ul class="list-inline mb-0">
 @if (Gate::forUser($user)->allows('update-comment', $comment))
                         <li class="list-inline-item">
                             <a href="{{ route('comment.edit', compact('comment')) }}"><small>수정</small></a>
