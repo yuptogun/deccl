@@ -6,13 +6,20 @@
         <div class="col">
             <div id="home-deccl">
                 <h4>{{ '최근 '.(env('COMMENT_RECENT_DAYS') ? env('COMMENT_RECENT_DAYS').'일간 ' : '') }}올라온 뉴스 + 댓글</h4>
-                <div class="masonry">
-@foreach ($recentComments as $comment)
-                    <div class="masonry-item">
-@include('comment._deccl.compact', compact('comment'))
+@if ($recentComments->isEmpty())
+                    <div class="text-center py-3">
+                        <p>최근 올라온 댓글이 없습니다.</p>
+                        <p><a href="{{ route('comment.create') }}" class="btn btn-primary">내가 하나 쓰기</a></p>
                     </div>
-@endforeach
+@else
+                <div class="masonry">
+    @foreach ($recentComments as $comment)
+                    <div class="masonry-item">
+        @include('comment._deccl.compact', compact('comment'))
+                    </div>
+    @endforeach
                 </div>
+@endif
             </div>
         </div>
     </div>

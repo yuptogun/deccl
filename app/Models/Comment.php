@@ -1,10 +1,10 @@
 <?php
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Traits\IsEntryModel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use SoftDeletes;
+    use IsEntryModel;
 
     protected $fillable = [
         'user_id', 'article_id', 'comment',
@@ -28,23 +29,6 @@ class Comment extends Model
     public function article()
     {
         return $this->hasOne(Article::class, 'id', 'article_id');
-    }
-
-    /**
-     * 최근 $days 일간의 것으로 제한하는 스코프
-     *
-     * @param \Illuminate\Database\Query\Builder $query
-     * @param integer $days 값을 주지 않으면 COMMENT_RECENT_DAYS 환경값 사용. 그마저도 없으면 적용안함
-     * @return \Illuminate\Database\Query\Builder
-     */
-    public function scopeRecent($query, $days = null)
-    {
-        if (!$days) $days = (int) env('COMMENT_RECENT_DAYS');
-        Log::debug($days);
-
-        return (int) $days > 0
-            ? $query->where('created_at', '>=', Carbon::now()->subDays($days)->startOfDay())
-            : $query;
     }
 
     public function getSummaryAttribute()
