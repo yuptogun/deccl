@@ -34,7 +34,8 @@
         height: 240,
         placeholder: '이 기사에 대해 한마디 해 주세요.',
         toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']]
+            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+            ['etc', ['codeview']]
         ]
     }).on("summernote.enter", function (we, e) {
         $(this).summernote("pasteHTML", "<br>");
@@ -53,7 +54,7 @@
                 <div class="form-group row">
                     <label class="col-md-3 col-lg-2 col-form-label">기사</label>
                     <div class="col-md-9 col-lg-10">
-                        <input type="url" id="article_url" name="url" class="form-control" placeholder="기사 제목 또는 URL로 검색" value="{!! request()->input('url') !!}" />
+                        <input type="text" id="article_url" name="url" class="form-control" placeholder="기사 제목 또는 URL로 검색" value="{!! request()->input('url') !!}" />
                     </div>
                 </div>
                 <div class="form-group row">

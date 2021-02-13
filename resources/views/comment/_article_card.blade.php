@@ -12,7 +12,7 @@
         <div class="col">
 @endif
             <div class="card-body">
-                <h6 class="card-title">{!! $article->html_title !!}</h6>
+                <h6 class="card-title mb-0">{!! $article->html_title !!}</h6>
             </div>
         </div>
     </div>

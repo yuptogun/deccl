@@ -24,6 +24,7 @@ class ArticleCrawler extends BaseCrawler implements CrawlerInterface
      */
     public function crawl($url)
     {
+        $url = $this->setURL($url);
         $this->setDOM($url);
 
         $this->setModelAttribute('url', $url);

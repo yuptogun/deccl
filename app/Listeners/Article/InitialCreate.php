@@ -2,7 +2,6 @@
 namespace App\Listeners\Article;
 
 use App\Services\Crawler\ArticleCrawler;
-use Illuminate\Support\Facades\Log;
 
 /**
  * URL 을 받아서 기사 데이터 입력하는 리스너
@@ -17,7 +16,6 @@ class InitialCreate
      */
     public function handle($event)
     {
-        Log::debug($event->url);
         if (!$event->url || !is_valid_url($event->url)) return false;
 
         $cralwer = new ArticleCrawler;

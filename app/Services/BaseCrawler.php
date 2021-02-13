@@ -3,6 +3,7 @@ namespace App\Services;
 
 use PHPHtmlParser\Dom;
 use PHPHtmlParser\Options;
+use Illuminate\Support\Facades\Log;
 
 /**
  * 크롤링 서비스 공통클래스
@@ -29,6 +30,48 @@ class BaseCrawler
      * @var \Illuminate\Database\Eloquent\Model
      */
     public $model;
+
+    /**
+     * URL 을 받아서 불필요한 get 변수를 날리고 정돈한다.
+     *
+     * * fbclid, utm-* 변수를 날림 (그밖에도 각종 트래킹 코드는 알아내서 없애야 함)
+     * * 각 언론사별로 꼭 필요한 변수값만 남기고 다 삭제하는 로직 구현해야 함
+     *
+     * @param string $url
+     * @return string
+     */
+    public function setURL($url)
+    {
+        $parsed_url = parse_url($url);
+        Log::debug($parsed_url);
+
+        $newquery = '';
+        if (isset($parsed_url['query'])) {
+            parse_str($parsed_url['query'], $query);
+            foreach ($query as $key => $value) {
+                if (str_starts_with($key, 'fbclid') || str_starts_with($key, 'utm_')) {
+                    unset($query[$key]);
+                }
+            }
+            $newqueries = [];
+            foreach ($query as $key => $value) {
+                $newqueries[] = "$key=$value";
+            }
+            $newquery = implode('&', $newqueries);
+        }
+        Log::debug($newquery);
+
+        // https://www.php.net/manual/en/function.parse-url.php#106731
+        $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
+        $host     = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+        $port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
+        $user     = isset($parsed_url['user']) ? $parsed_url['user'] : '';
+        $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : '';
+        $pass     = ($user || $pass) ? "$pass@" : '';
+        $path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+        $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
+        return "$scheme$user$pass$host$port$path$newquery$fragment";
+    }
 
     /**
      * URL 을 받아서 DOM 파싱해 프로퍼티로 꽂아놓는다.
