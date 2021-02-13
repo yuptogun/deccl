@@ -59,7 +59,11 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-md-9 offset-md-3 col-lg-10 offset-lg-2">
-                        <div id="article_radio"></div>
+                        <div id="article_radio">
+@if (isset($article) && $article)
+@include('comment._radio_article', ['article' => $article, 'checked' => true])
+@endif
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">

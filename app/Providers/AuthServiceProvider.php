@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 
 use App\Policies\CommentPolicy;
-
+use App\Policies\ReactionPolicy;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -47,5 +47,8 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('update-comment', [CommentPolicy::class, 'update']);
         Gate::define('destroy-comment', [CommentPolicy::class, 'destroy']);
+        Gate::define('store-reaction', [ReactionPolicy::class, 'store']);
+        Gate::define('update-reaction', [ReactionPolicy::class, 'update']);
+        Gate::define('destroy-reaction', [ReactionPolicy::class, 'destroy']);
     }
 }

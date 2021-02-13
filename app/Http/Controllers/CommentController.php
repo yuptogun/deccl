@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Gate;
 
@@ -19,6 +20,9 @@ class CommentController extends Controller
     {
         $user = $this->user;
         $title = '새 댓글 쓰기';
+        if (request()->input('article')) {
+            $article = Article::find(request()->input('article'));
+        }
         return view('comment.create', get_defined_vars());
     }
 

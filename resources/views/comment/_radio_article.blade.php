@@ -1,5 +1,5 @@
 <div class="form-check">
-    <input class="form-check-input" type="radio" name="article_id" id="article{{ $article->id }}" value="{{ $article->id }}" required>
+    <input class="form-check-input" type="radio" name="article_id" id="article{{ $article->id }}" value="{{ $article->id }}" required {!! isset($checked) && $checked ? 'checked' : '' !!}>
     <label class="form-check-label" for="article{{ $article->id }}">
         {{ $article->title }}
         <a href="{{ $article->url }}" target="_blank">
