@@ -67,7 +67,7 @@ class Comment extends Model
             '<form class="ajax form-reaction px-2" data-method="POST" data-action="'.route('api.reaction.store', ['comment' => $this->getKey()]).'" data-redirect="#"><div class="form-group mb-0">'.($reactionModel->html_radio_options).'<input type="text" name="custom_reaction" class="form-control" placeholder="이모지 1개만 가능" /><div class="text-right"><button type="submit" class="btn btn-primary">보내기</button></div></div></form>'.
             '</div></div>';
         } else {
-            return '<a href="#" class="btn btn-sm btn-light">'.$reactions.'</a>';
+            return '<a href="'.($user ? '#' : route('auth.login')).'" class="btn btn-sm btn-light">'.$reactions.'</a>';
         }
     }
     public function getHtmlActionsAttribute()
