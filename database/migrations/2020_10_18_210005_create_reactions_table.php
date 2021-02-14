@@ -13,14 +13,16 @@ class CreateReactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reactions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('comment_id')->constrained();
-            $table->foreignId('user_id')->constrained();
-            $table->string('reaction', 4)->comment('댓글에 대한 반응은 이모지로만 할 수 있음');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        if (!Schema::hasTable('reactions')) {
+            Schema::create('reactions', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('comment_id')->constrained();
+                $table->foreignId('user_id')->constrained();
+                $table->string('reaction', 4)->comment('댓글에 대한 반응은 이모지로만 할 수 있음');
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**
