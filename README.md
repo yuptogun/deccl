@@ -1,6 +1,6 @@
 # deccl
 
-https://deccl.us (TBD)
+https://deccl.us/
 
 News Commentors' & Journalism Critics' Playground.
 
