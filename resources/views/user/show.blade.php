@@ -22,7 +22,9 @@
 @endif
                 <div class="col{{ $user->profile_picture ? '-md-8' : '0' }}">
                     <ul>
+@if ($user->created_at)
                         <li>가입일: {{ $user->created_at->toDateString() }}</li>
+@endif
                         <li>그동안 쓴 댓글: {{ $user->comments->count() }}개</li>
                     </ul>
                 </div>
