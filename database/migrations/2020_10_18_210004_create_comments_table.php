@@ -13,14 +13,16 @@ class CreateCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('article_id')->constrained();
-            $table->text('comment')->comment('댓글 본문');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        if (!Schema::hasTable('comments')) {
+            Schema::create('comments', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->constrained();
+                $table->foreignId('article_id')->constrained();
+                $table->text('comment')->comment('댓글 본문');
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

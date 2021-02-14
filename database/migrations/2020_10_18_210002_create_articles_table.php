@@ -13,15 +13,17 @@ class CreateArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles', function (Blueprint $table) {
-            $table->id();
-            $table->string('url')->comment('기사 URL');
-            $table->string('title')->comment('기사 제목');
-            $table->string('summary')->nullable()->comment('기사 요약');
-            $table->string('thumbnail')->nullable()->comment('기사 사진');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        if (!Schema::hasTable('articles')) {
+            Schema::create('articles', function (Blueprint $table) {
+                $table->id();
+                $table->string('url')->comment('기사 URL');
+                $table->string('title')->comment('기사 제목');
+                $table->string('summary')->nullable()->comment('기사 요약');
+                $table->string('thumbnail')->nullable()->comment('기사 사진');
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

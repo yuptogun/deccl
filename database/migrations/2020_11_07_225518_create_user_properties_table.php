@@ -13,15 +13,17 @@ class CreateUserPropertiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_properties', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('username')->nullable()->comment('사용자 "ID"');
-            $table->string('profile_picture')->nullable()->comment('프로필 사진');
-            $table->integer('reputation')->default(0)->comment('평판 점수');
-            $table->string('locale')->nullable()->default('ko')->comment('선호하는 언어');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('user_properties')) {
+            Schema::create('user_properties', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->constrained();
+                $table->string('username')->nullable()->comment('사용자 "ID"');
+                $table->string('profile_picture')->nullable()->comment('프로필 사진');
+                $table->integer('reputation')->default(0)->comment('평판 점수');
+                $table->string('locale')->nullable()->default('ko')->comment('선호하는 언어');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
