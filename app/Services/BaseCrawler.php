@@ -153,10 +153,24 @@ class BaseCrawler
         return $this->isModelReady() && $this->model->save() ? $this->model : false;
     }
 
+    /**
+     * DOM 엘리먼트의 텍스트를 얻는다.
+     *
+     * @param \PHPHtmlParser\Dom\Node\AbstractNode $element
+     * @return string
+     */
     public function getText($element)
     {
         return $element->text;
     }
+
+    /**
+     * DOM 엘리먼트의 특정 속성 값을 얻는다.
+     *
+     * @param \PHPHtmlParser\Dom\Node\AbstractNode $element
+     * @param string $attr
+     * @return string
+     */
     public function getAttribute($element, $attr)
     {
         return $element->getAttribute($attr);

@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\IsEntryModel;
 use App\Traits\IsSearchableModel;
+
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -23,6 +24,19 @@ class Article extends Model
     public $searchable = [
         'url', 'title', 'summary',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+            foreach (['url', 'title', 'summary'] as $attr) {
+                if (isset($model->$attr)) {
+                    $model->$attr = mb_substr($model->$attr, 0, env('DB_DEFAULT_LENGTH', 191));
+                }
+            }
+        });
+    }
 
     public function comments()
     {
