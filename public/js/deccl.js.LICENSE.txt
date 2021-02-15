@@ -37,13 +37,6 @@
  */
 
 /*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <http://feross.org>
- * @license  MIT
- */
-
-/*!
  * jQuery JavaScript Library v3.5.1
  * https://jquery.com/
  *
@@ -78,8 +71,6 @@
  * license: MIT
  * http://bootboxjs.com/
  */
-
-/*! https://mths.be/utf8js v2.1.2 by @mathias */
 
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.

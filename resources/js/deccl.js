@@ -9,16 +9,17 @@ import { confirm } from 'bootbox';
 window.$ = window.jQuery = require('jquery');
 window.bootbox = require('bootbox');
 
-window.io = require('socket.io-client');
-window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: 'http://localhost:6001',
-    auth: {
-        headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-    }
-});
+// #62 잠시만 안녕
+// window.io = require('socket.io-client');
+// window.Echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: 'http://localhost:6001',
+//     auth: {
+//         headers: {
+//             Authorization: 'Bearer ' + localStorage.getItem('token')
+//         }
+//     }
+// });
 
 /**
  * $.ajax() 호출에 사용할 설정객체를 만든다.
