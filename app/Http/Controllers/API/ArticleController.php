@@ -30,7 +30,7 @@ class ArticleController extends APIController
         $search = $request->input('search');
         $articles = $this->searchArticlesOrCreateOne($search);
 
-        if (empty($articles)) return $this->responseAJAX(416, '제목으로 검색하지 못했습니다. URL을 입력해 주시면 추가해 드리겠습니다.');
+        if ($articles->isEmpty()) return $this->responseAJAX(416, '제목으로 검색하지 못했습니다. URL을 입력해 주시면 추가해 드리겠습니다.');
 
         $articles->transform(function ($article) {
             return view('comment._radio_article', compact('article'))->render();

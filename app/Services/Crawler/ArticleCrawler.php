@@ -1,6 +1,8 @@
 <?php
 namespace App\Services\Crawler;
 
+use Illuminate\Support\Facades\Log;
+
 use App\Models\Article;
 use App\Services\BaseCrawler;
 use App\Interfaces\CrawlerInterface;
@@ -29,8 +31,12 @@ class ArticleCrawler extends BaseCrawler implements CrawlerInterface
 
         $this->setModelAttribute('url', $url);
         $this->setModelAttribute('title', function ($dom) {
+            $meta = $dom->find('meta[property="og:title"]');
+            if (count($meta) > 0) return $this->getAttribute($meta[0], 'content');
+
             $title = $dom->find('title');
             if (count($title) > 0) return $this->getText($title[0]);
+
             return null;
         });
         $this->setModelAttribute('thumbnail', function ($dom) {
@@ -45,6 +51,7 @@ class ArticleCrawler extends BaseCrawler implements CrawlerInterface
         $this->setModelAttribute('summary', function ($dom) {
             $meta = $dom->find('meta[property="og:description"]');
             if (count($meta) > 0) return $this->getAttribute($meta[0], 'content');
+
             return null;
         });
 
@@ -53,6 +60,7 @@ class ArticleCrawler extends BaseCrawler implements CrawlerInterface
 
     public function isModelReady()
     {
+        Log::debug([$this->model->url, $this->model->title]);
         // url, title 2개는 필수
         return $this->model
             && $this->model->url
