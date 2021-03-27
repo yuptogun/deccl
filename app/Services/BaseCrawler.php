@@ -69,6 +69,7 @@ class BaseCrawler
         $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : '';
         $pass     = ($user || $pass) ? "$pass@" : '';
         $path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+        $path     = !empty($newquery) ? $path.'?' : $path;
         $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
         return "$scheme$user$pass$host$port$path$newquery$fragment";
     }
