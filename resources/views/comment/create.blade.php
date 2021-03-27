@@ -37,9 +37,6 @@
             ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
             ['etc', ['codeview']]
         ]
-    }).on("summernote.enter", function (we, e) {
-        $(this).summernote("pasteHTML", "<br>");
-        e.preventDefault();
     });
 })(jQuery);
 </script>
