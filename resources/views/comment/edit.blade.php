@@ -1,23 +1,5 @@
 @extends('comment._')
 
-@push('body_after')
-<script>
-(function ($) {
-    let commentInput = $('#comment');
-    commentInput.summernote({
-        height: 240,
-        placeholder: '이 기사에 대해 한마디 해주세요.',
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']]
-        ]
-    }).on("summernote.enter", function (we, e) {
-        $(this).summernote("pasteHTML", "<br>");
-        e.preventDefault();
-    });
-})(jQuery);
-</script>
-@endpush
-
 @push('content')
 <div class="container">
     <div class="row">
