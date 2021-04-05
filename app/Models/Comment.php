@@ -37,8 +37,9 @@ class Comment extends Model
 
     public function getSummaryAttribute()
     {
-        $firstLine = explode('<br>', $this->comment)[0];
-        return str_replace('</p>', '', str_replace('<p>', '', $firstLine));
+        preg_match_all('/<p[^>]?>([^(<\/p>)]+)<\/p>/m', $this->comment, $paragraphs, PREG_SET_ORDER, 0);
+        if (!$paragraphs || !isset($paragraphs[0]) || !isset($paragraphs[0][1])) return $this->comment;
+        return $paragraphs[0][1];
     }
     public function getInfoAttribute()
     {
