@@ -5,7 +5,6 @@
 (function ($) {
     let articleRadioContainer = $('#article_radio');
     let articleSearchInput = $('#article_url');
-    let commentInput = $('#comment');
     let findOrNewArticle = "{{ route('api.article.findOrNew') }}";
     let articleUrlRequested = "{{ request()->input('url') }}";
 
@@ -30,14 +29,6 @@
     if (articleUrlRequested) {
         getArticleOptions();
     }
-    commentInput.summernote({
-        height: 240,
-        placeholder: '이 기사에 대해 한마디 해 주세요.',
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
-            ['etc', ['codeview']]
-        ]
-    });
 })(jQuery);
 </script>
 @endpush

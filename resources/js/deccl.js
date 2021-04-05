@@ -191,3 +191,15 @@ $('body').on('click', 'a.ajax, button.ajax', function (e) {
 $('body').on('change', '.custom-file-input', function (event) {
     $(this).next('.custom-file-label').html(event.target.files[0].name);
 });
+
+(function ($) {
+    let commentInput = $('#comment');
+    commentInput.summernote({
+        height: 240,
+        placeholder: '이 기사에 대해 한마디 해 주세요.',
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+            ['etc', ['codeview']]
+        ]
+    });
+})(jQuery);
