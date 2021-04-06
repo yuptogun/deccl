@@ -3,6 +3,8 @@ namespace App\Services;
 
 use PHPHtmlParser\Dom;
 use PHPHtmlParser\Options;
+use GuzzleHttp\Client as Guzzle;
+
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -43,7 +45,6 @@ class BaseCrawler
     public function setURL($url)
     {
         $parsed_url = parse_url($url);
-        Log::debug($parsed_url);
 
         $newquery = '';
         if (isset($parsed_url['query'])) {
@@ -59,7 +60,6 @@ class BaseCrawler
             }
             $newquery = implode('&', $newqueries);
         }
-        Log::debug($newquery);
 
         // https://www.php.net/manual/en/function.parse-url.php#106731
         $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
@@ -78,22 +78,35 @@ class BaseCrawler
      * URL 을 받아서 DOM 파싱해 프로퍼티로 꽂아놓는다.
      *
      * @param string $url
-     * @return void
+     * @return boolean 성공/실패 여부
      */
     public function setDOM($url)
     {
-        if (!$this->isDOMReady()) {
-            $html = @file_get_contents($url);
-            preg_match_all('/<meta charset="([^"]+)".*>/mi', $html, $matches, PREG_SET_ORDER, 0);
-            if (count($matches) > 0) {
-                $charset = $matches[0][1];
-                $this->charset = $charset;
-                $html = iconv($this->charset, 'UTF-8', $html);
-            }
-            $dom = new Dom;
-            $dom->loadStr($html, (new Options)->setEnforceEncoding('UTF-8'));
-            $this->dom = $dom;
+        if ($this->isDOMReady()) return true;
+
+        $html = '';
+
+        $http = (new Guzzle)->get($url);
+        if ($http->getStatusCode() != 200) return false;
+
+        $html = (string) $http->getBody();
+
+        preg_match_all('/<meta charset="([^"]+)".*>/mi', $html, $matches, PREG_SET_ORDER, 0);
+        if (count($matches) > 0) {
+            $charset = $matches[0][1];
+            $this->charset = $charset;
         }
+
+        $options = new Options;
+        if (strtoupper($this->charset) != 'UTF-8') {
+            $html = iconv($this->charset, 'UTF-8', $html);
+            $options->setEnforceEncoding('UTF-8');
+        }
+
+        $dom = new Dom;
+        $dom->loadStr(html_entity_decode($html, ENT_QUOTES, 'UTF-8'), $options);
+        $this->dom = $dom;
+        return true;
     }
 
     /**
@@ -129,6 +142,7 @@ class BaseCrawler
         $dom = $this->getDOM();
         $value = is_callable($callbackOrValue) ? $callbackOrValue($dom) : $callbackOrValue;
         if ($value) $model->{$attr} = $value;
+        $this->model = $model;
     }
 
     /**
