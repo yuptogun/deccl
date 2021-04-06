@@ -1,6 +1,8 @@
 <?php
 namespace App\Listeners\Article;
 
+use Illuminate\Support\Facades\Log;
+
 use App\Services\Crawler\ArticleCrawler;
 
 /**
@@ -16,10 +18,17 @@ class InitialCreate
      */
     public function handle($event)
     {
-        if (!$event->url || !is_valid_url($event->url)) return false;
+        if (!$event->url || !is_valid_url($event->url)) {
+            Log::error($event->url.' : invalid');
+            return false;
+        }
 
         $cralwer = new ArticleCrawler;
         $article = $cralwer->crawl($event->url);
-        return $article ?: false;
+        if (!$article) {
+            Log::error($event->url.' : uncrawled');
+            return false;
+        }
+        return $article;
     }
 }

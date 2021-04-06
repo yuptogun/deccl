@@ -50,32 +50,23 @@ class ArticleController extends APIController
      */
     private function searchArticlesOrCreateOne($search)
     {
-        Log::debug('searchArticles 시작');
-
         $articles = Article::search($search)->get();
 
         if (!$articles->isEmpty()) {
-            Log::debug('검색 결과 있음');
             return $articles;
         }
         if (!is_valid_url($search)) {
-            Log::debug('url 도 아니고 검색결과가 있는 검색어도 아님');
+            Log::error("$search : invalid");
             return collect();
         }
 
-        Log::debug('검색 결과 없는 url, 새로 크롤링해야 함');
         $created = event(new ShouldBeCreated($search));
-        Log::debug('크롤링함');
-
         if (!$created || !isset($created[0]) || !$created[0]) {
-            Log::error('크롤링 실패함');
-            Log::error($search);
+            Log::error("$search : uncrawled");
             return collect();
         }
 
-        Log::debug('크롤링 성공');
         $article = $created[0];
-        Log::debug($article);
         return collect([$article]);
     }
 }

@@ -27,7 +27,10 @@ class ArticleCrawler extends BaseCrawler implements CrawlerInterface
     public function crawl($url)
     {
         $url = $this->setURL($url);
-        $this->setDOM($url);
+        if (!$this->setDOM($url)) {
+            Log::error($url.' : setDOM Failed');
+            return false;
+        }
 
         $this->setModelAttribute('url', $url);
         $this->setModelAttribute('title', function ($dom) {
@@ -37,6 +40,8 @@ class ArticleCrawler extends BaseCrawler implements CrawlerInterface
             $title = $dom->find('title');
             if (count($title) > 0) return $this->getText($title[0]);
 
+            Log::error('title not found');
+            Log::error($dom);
             return null;
         });
         $this->setModelAttribute('thumbnail', function ($dom) {
@@ -46,12 +51,16 @@ class ArticleCrawler extends BaseCrawler implements CrawlerInterface
             $meta2 = $dom->find('meta[property="og:image"]');
             if (count($meta2) > 0) return $this->getAttribute($meta2[0], 'content');
 
+            Log::error('thumbnail not found');
+            Log::error($dom);
             return null;
         });
         $this->setModelAttribute('summary', function ($dom) {
             $meta = $dom->find('meta[property="og:description"]');
             if (count($meta) > 0) return $this->getAttribute($meta[0], 'content');
 
+            Log::error('summary not found');
+            Log::error($dom);
             return null;
         });
 
@@ -60,7 +69,6 @@ class ArticleCrawler extends BaseCrawler implements CrawlerInterface
 
     public function isModelReady()
     {
-        Log::debug([$this->model->url, $this->model->title]);
         // url, title 2개는 필수
         return $this->model
             && $this->model->url
