@@ -86,7 +86,9 @@ class BaseCrawler
 
         $html = '';
 
-        $http = (new Guzzle)->get($url);
+        $http = (new Guzzle)->get($url, [
+            'verify' => false,
+        ]);
         if ($http->getStatusCode() != 200) return false;
 
         $html = (string) $http->getBody();
