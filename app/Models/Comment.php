@@ -37,7 +37,7 @@ class Comment extends Model
 
     public function getSummaryAttribute()
     {
-        preg_match_all('/<p>(((?!<\/p>).)*)<\/p>/m', $this->comment, $paragraphs, PREG_SET_ORDER, 0);
+        preg_match_all('/(?!<.*blockquote.*>)<p>(((?!<\/p>).)*)<\/p>/m', $this->comment, $paragraphs, PREG_SET_ORDER, 0);
         if (!$paragraphs || !isset($paragraphs[0]) || !isset($paragraphs[0][1])) return $this->comment;
         return $paragraphs[0][1];
     }

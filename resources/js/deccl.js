@@ -199,7 +199,13 @@ $('body').on('change', '.custom-file-input', function (event) {
         placeholder: '이 기사에 대해 한마디 해 주세요.',
         toolbar: [
             ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+            ['paragraph', ['style']],
             ['etc', ['codeview']]
-        ]
+        ],
+        styleTags: [
+            'p',
+            { title: 'Blockquote', tag: 'blockquote', className: 'blockquote', value: 'blockquote' }
+        ],
+        blockquoteBreakingLevel: 1
     });
 })(jQuery);
