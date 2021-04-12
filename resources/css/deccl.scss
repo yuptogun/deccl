@@ -82,6 +82,25 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .deccl-comment p {
     margin-bottom: 0.25rem;
 }
+.deccl-comment blockquote,
+.note-editor blockquote {
+    padding-left: 0.75em;
+    margin-bottom: 0.25rem;
+    position: relative;
+    color: $secondary;
+}
+.deccl-comment blockquote::before,
+.note-editor blockquote::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: '❝';
+    color: $secondary;
+}
+.deccl-comment blockquote p:last-of-type,
+.note-editor blockquote p:last-of-type {
+    margin-bottom: 0;
+}
 @include media-breakpoint-up(sm) {
     .deccl-full .deccl-article {
         margin-top: 0.75rem;
