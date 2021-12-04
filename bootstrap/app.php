@@ -27,9 +27,9 @@ $app->singleton(
 
 $app->configure('app');
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    App\Http\Middleware\TrustedProxies::class,
+]);
 
 $app->routeMiddleware([
     'user' => App\Http\Middleware\GetCurrentUser::class,
